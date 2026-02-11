@@ -327,17 +327,20 @@ async def read_users_me(current_user: User = Depends(get_current_user)):
 def on_startup():
     create_db_and_tables()
     
-    # Create default admin if not exists
+    # Create default admin if not exists (handle race condition)
     from .database import engine
-    with Session(engine) as session:
-        statement = select(User).where(User.username == "admin")
-        user = session.exec(statement).first()
-        if not user:
-            hashed_pwd = get_password_hash("admin")
-            admin_user = User(username="admin", hashed_password=hashed_pwd, role="admin")
-            session.add(admin_user)
-            session.commit()
-            print("Created default admin user (admin/admin)")
+    try:
+        with Session(engine) as session:
+            statement = select(User).where(User.username == "admin")
+            user = session.exec(statement).first()
+            if not user:
+                hashed_pwd = get_password_hash("admin")
+                admin_user = User(username="admin", hashed_password=hashed_pwd, role="admin")
+                session.add(admin_user)
+                session.commit()
+                print("Created default admin user (admin/admin)")
+    except Exception as e:
+        print(f"Admin user creation skipped (likely exists): {e}")
 
 # Mount static files for frontend (Must be last)
 import os
