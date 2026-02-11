@@ -13,7 +13,7 @@ from datetime import datetime
 
 # Configuration
 DEFAULT_CONFIG = {
-    "api_url": "http://localhost:8000/api/inventory",
+    "api_url": "https://inventario-it-nfzl.onrender.com/api/inventory",
     "client_code": "DEFAULT",
     "interval_seconds": 60,
     "api_key": ""
