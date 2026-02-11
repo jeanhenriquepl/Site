@@ -5,9 +5,9 @@ from sqlmodel import Session, select, SQLModel
 from typing import List
 from datetime import datetime, timedelta
 
-from database import create_db_and_tables, get_session
+from .database import create_db_and_tables, get_session
 from sqlalchemy.orm import selectinload
-from models import Machine, Software, Service, InventoryReport, MachineRead
+from .models import Machine, Software, Service, InventoryReport, MachineRead
 
 app = FastAPI(title="IT Inventory System", version="1.0.0")
 
@@ -151,7 +151,7 @@ def read_machine(machine_id: int, session: Session = Depends(get_session)):
 
 # --- Command Execution API ---
 
-from models import Command
+from .models import Command
 
 class CommandCreate(SQLModel):
     command: str
@@ -273,10 +273,10 @@ def read_stats(session: Session = Depends(get_session)):
 
 # --- Authentication ---
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from auth import verify_password, create_access_token, get_password_hash, ACCESS_TOKEN_EXPIRE_MINUTES
+from .auth import verify_password, create_access_token, get_password_hash, ACCESS_TOKEN_EXPIRE_MINUTES
 from jose import JWTError, jwt
-from auth import SECRET_KEY, ALGORITHM
-from models import User
+from .auth import SECRET_KEY, ALGORITHM
+from .models import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/token")
 
@@ -328,7 +328,7 @@ def on_startup():
     create_db_and_tables()
     
     # Create default admin if not exists
-    from database import engine
+    from .database import engine
     with Session(engine) as session:
         statement = select(User).where(User.username == "admin")
         user = session.exec(statement).first()

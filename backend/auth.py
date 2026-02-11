@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-from models import User
+from .models import User
 
 # Secret key for JWT (in production, this should be an env var)
 SECRET_KEY = "mysecretkey" 
