@@ -9,6 +9,7 @@ import time
 
 import os
 import argparse
+from datetime import datetime
 
 # Configuration
 DEFAULT_CONFIG = {
@@ -250,7 +251,7 @@ def send_data(data):
 import subprocess
 import threading
 
-API_BASE_URL = "http://localhost:8000/api"
+API_BASE_URL = API_URL.replace("/inventory", "")
 
 def execute_command(command_id, command_str):
     print(f"[{datetime.now()}] Executing command: {command_str}")
@@ -311,7 +312,6 @@ def poll_commands():
         time.sleep(3) # Poll every 3 seconds
 
 if __name__ == "__main__":
-    from datetime import datetime
     parser = argparse.ArgumentParser(description="IT Inventory Agent")
     parser.add_argument("--setup", action="store_true", help="Run interactive setup")
     args = parser.parse_args()
@@ -323,6 +323,7 @@ if __name__ == "__main__":
     # Reload config in case it was just updated (though we loaded it globally, setup updates the file)
     AGENT_CONFIG = load_config()
     API_URL = AGENT_CONFIG['api_url']
+    API_BASE_URL = API_URL.replace("/inventory", "")
     INTERVAL_SECONDS = AGENT_CONFIG['interval_seconds']
 
     print(f"Starting IT Inventory Agent... (Target: {API_URL})")
