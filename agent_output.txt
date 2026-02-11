@@ -1,0 +1,9 @@
+Starting IT Inventory Agent... (Target: http://localhost:8000/api/inventory)
+WARNING: Agent is NOT running as Administrator. Some commands may fail.
+Command polling started.
+Collecting system info...
+DEBUG: Found 0 running services
+Sending data for GT-5904...
+polling error: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /api/commands/pending?hostname=GT-5904 (Caused by NewConnectionError("HTTPConnection(host='localhost', port=8000): Failed to establish a new connection: [WinError 10061] Nenhuma conexÒo p¶de ser feita porque a mßquina de destino as recusou ativamente"))
+[2026-02-09 17:47:51.188604] Error connecting to server: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /api/inventory (Caused by NewConnectionError("HTTPConnection(host='localhost', port=8000): Failed to establish a new connection: [WinError 10061] Nenhuma conexÒo p¶de ser feita porque a mßquina de destino as recusou ativamente"))
+polling error: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /api/commands/pending?hostname=GT-5904 (Caused by NewConnectionError("HTTPConnection(host='localhost', port=8000): Failed to establish a new connection: [WinError 10061] Nenhuma conexÒo p¶de ser feita porque a mßquina de destino as recusou ativamente"))

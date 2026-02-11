@@ -1,0 +1,5 @@
+{
+    "api_url": "http://localhost:8000/api/inventory",
+    "interval_seconds": 60,
+    "api_key": ""
+}

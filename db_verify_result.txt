@@ -1,0 +1,4 @@
+ERROR: (sqlite3.OperationalError) no such table: machine
+[SQL: SELECT machine.hostname, machine.ip_address, machine.os_info, machine.processor, machine.ram_gb, machine.disk_gb, machine.manufacturer, machine.model, machine.serial_number, machine.last_seen, machine.cpu_usage, machine.memory_usage, machine.disk_usage, machine.status, machine.alert_message, machine.id 
+FROM machine]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)

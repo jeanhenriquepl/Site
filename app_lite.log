@@ -1,0 +1,16 @@
+2026-02-10 08:55:25,870|INFO|Sistema iniciado.
+2026-02-10 08:56:05,255|INFO|Lendo: S3D_empresas_20260209171253_154644.csv...
+2026-02-10 08:56:05,293|INFO|Arquivo carregado com sucesso.
+2026-02-10 08:56:20,479|INFO|Iniciando Correção Avançada...
+2026-02-10 08:56:20,546|INFO|Reparo de encoding (Ã§ -> ç) aplicado.
+2026-02-10 08:56:20,630|INFO|Todos os acentos foram removidos (á->a).
+2026-02-10 08:56:20,638|INFO|Linhas vazias removidas: 0
+2026-02-10 08:56:20,733|INFO|Trim aplicado.
+2026-02-10 08:57:12,138|INFO|Arquivo salvo: Empresas 10.02.xlsx
+2026-02-10 08:58:02,007|INFO|Iniciando Correção Avançada...
+2026-02-10 08:58:02,063|INFO|Reparo de encoding (Ã§ -> ç) aplicado.
+2026-02-10 08:58:02,181|INFO|Todos os acentos foram removidos (á->a).
+2026-02-10 08:58:02,192|INFO|Linhas vazias removidas: 0
+2026-02-10 08:58:02,287|INFO|Trim aplicado.
+2026-02-10 08:58:31,323|INFO|Arquivo salvo: Empresas 10.02.xlsx
+2026-02-10 13:59:31,033|INFO|Sistema iniciado.

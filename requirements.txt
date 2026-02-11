@@ -1,0 +1,10 @@
+gunicorn
+fastapi
+uvicorn
+sqlmodel
+pydantic
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+requests
+psycopg2-binary
