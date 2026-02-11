@@ -423,7 +423,8 @@ function updateChart(osData) {
                     labels: { color: '#94a3b8' }
                 }
             }
-        });
+        }
+    });
 }
 
 // --- Settings Logic ---
