@@ -4,7 +4,7 @@ if (!token) {
     window.location.href = '/login.html';
 }
 
-const API_URL = 'http://localhost:8000/api';
+const API_URL = '/api';
 
 // Helper for Fetch with Auth
 async function authFetch(url, options = {}) {
