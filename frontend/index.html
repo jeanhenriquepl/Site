@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Inventory Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="brand">
+                <h2>IT Inventory</h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-link active" data-page="dashboard">
+                    <span class="icon">📊</span> Dashboard
+                </a>
+                <a href="#" class="nav-link" data-page="machines">
+                    <span class="icon">🖥️</span> Máquinas
+                </a>
+                <a href="#" class="nav-link" data-page="settings">
+                    <span class="icon">⚙️</span> Configurações
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <h1>Visão Geral</h1>
+                <div class="user-profile">
+                    <span>Admin</span>
+                    <div class="avatar">A</div>
+                    <button id="btn-logout"
+                        style="margin-left: 10px; background: transparent; border: 1px solid #475569; color: #94a3b8; padding: 2px 8px; border-radius: 4px; cursor: pointer;">Sair</button>
+                </div>
+            </header>
+
+            <div id="dashboard-view" class="view active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total de Máquinas</h3>
+                        <p class="stat-value" id="total-machines">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Online (Hoje)</h3>
+                        <p class="stat-value" id="online-machines">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Alertas de Disco</h3>
+                        <p class="stat-value warning" id="disk-alerts">0</p>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3>Distribuição de Sistemas Operacionais</h3>
+                        <canvas id="osChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div id="machines-view" class="view" style="display: none;">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>Lista de Ativos</h2>
+                        <button class="btn-refresh" onclick="loadMachines()">Atualizar</button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Hostname</th>
+                                <th>IP Address</th>
+                                <th>CPU (%)</th>
+                                <th>RAM (%)</th>
+                                <th>Disk (%)</th>
+                                <th>OS</th>
+                                <th>Última Conexão</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="machines-table-body">
+                            <!-- Machines will be loaded here -->
+                        </tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="settings-view" class="view" style="display: none;">
+                <div class="settings-container">
+                    <!-- System Preferences -->
+                    <div class="setting-card">
+                        <div class="card-header">
+                            <h3>Preferências do Sistema</h3>
+                            <span class="icon">⚙️</span>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Atualização Automática</label>
+                                <p>Atualizar dashboard a cada 30 segundos</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-autorefresh" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Modo Compacto</label>
+                                <p>Reduzir espaçamento para telas pequenas</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-compact">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Agent Management -->
+                    <div class="setting-card">
+                        <div class="card-header">
+                            <h3>Gestão de Agentes</h3>
+                            <span class="icon">🤖</span>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Token de Instalação</label>
+                                <p>Use este token ao configurar novos agentes</p>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." readonly
+                                id="agent-token">
+                            <button class="btn-copy" onclick="copyToken()">Copiar</button>
+                        </div>
+
+                        <div class="setting-actions" style="margin-top: 20px;">
+                            <a href="/dist/InventarioAgent.exe" download class="btn-primary"
+                                style="text-decoration: none; display: inline-block; text-align: center;">
+                                📥 Baixar Agente (.exe)
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Data Management -->
+                    <div class="setting-card">
+                        <div class="card-header">
+                            <h3>Gerenciamento de Dados</h3>
+                            <span class="icon">💾</span>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label>Exportar Inventário Completo</label>
+                                <p>Baixar CSV com todos os dados de máquinas e softwares</p>
+                            </div>
+                            <button class="btn-secondary" onclick="exportFullInventory()">Exportar CSV</button>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <label style="color: var(--danger)">Limpeza de Agentes</label>
+                                <p>Remover agentes offline há mais de 30 dias</p>
+                            </div>
+                            <button class="btn-danger" onclick="pruneOfflineAgents()">Limpar Inativos</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="machine-details-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <h2 id="modal-hostname">Detalhes da Máquina</h2>
+                    <div class="tabs">
+                        <button class="tab-btn active" onclick="switchTab('info')">Info Geral</button>
+                        <button class="tab-btn" onclick="switchTab('software')">Software</button>
+                        <button class="tab-btn" onclick="switchTab('services')">Serviços</button>
+                        <button class="tab-btn" onclick="switchTab('terminal')">Terminal</button>
+                    </div>
+
+                    <div id="tab-info" class="tab-content active">
+                        <div id="modal-info-body"></div>
+                    </div>
+                    <div id="tab-software" class="tab-content">
+                        <div class="tab-header">
+                            <button class="btn-export" id="btn-export-software"
+                                style="margin-bottom: 10px; padding: 5px 10px; cursor: pointer;">💾 Exportar
+                                CSV</button>
+                        </div>
+                        <div id="modal-software-body"></div>
+                    </div>
+                    <div id="tab-services" class="tab-content">
+                        <div id="modal-services-body"></div>
+                    </div>
+                    <div id="tab-terminal" class="tab-content">
+                        <div class="terminal-window"
+                            style="background: #1e1e1e; color: #10b981; padding: 15px; border-radius: 6px; font-family: monospace; height: 300px; display: flex; flex-direction: column;">
+                            <div id="terminal-output"
+                                style="flex-grow: 1; overflow-y: auto; white-space: pre-wrap; margin-bottom: 10px;">
+                                Microsoft Windows [Version 10.0.xxx]
+                                (c) Microsoft Corporation. All rights reserved.
+
+                            </div>
+                            <div class="terminal-input-line" style="display: flex;">
+                                <span style="margin-right: 5px;">PS ></span>
+                                <input type="text" id="terminal-input"
+                                    style="flex-grow: 1; background: transparent; border: none; color: #10b981; outline: none; font-family: monospace;"
+                                    placeholder="Digite um comando...">
+                                <button id="btn-run-command"
+                                    style="background: #10b981; color: #000; border: none; padding: 2px 10px; cursor: pointer; font-weight: bold;">Run</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

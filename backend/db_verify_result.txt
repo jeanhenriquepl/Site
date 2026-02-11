@@ -1,0 +1,7 @@
+Total Machines: 2
+Machine: GT-5904
+  Service Count: 136
+  First Service: agent_ovpnconnect - running
+Machine: TEST-MACHINE
+  Service Count: 2
+  First Service: Spooler - running

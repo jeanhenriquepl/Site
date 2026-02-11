@@ -1,0 +1,2 @@
+[2026-02-09 20:51:22.937593] DEBUG: Received 136 services for GT-5904
+[2026-02-09 20:51:22.937633] First service: {'name': 'agent_ovpnconnect', 'display_name': 'OpenVPN Agent agent_ovpnconnect', 'status': 'running', 'start_type': 'automatic'}
